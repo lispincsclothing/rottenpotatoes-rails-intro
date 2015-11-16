@@ -11,13 +11,16 @@ class MoviesController < ApplicationController
   end
 
   def index
-    @movies = params[:sort_by] ? Movie.order(params[:sort_by].to_sym) : Movie.all
+    @ratings_hash = params[:ratings] ? params[:ratings] : Hash[Movie.all_ratings.map {|v| [v,v]}]
+    @movies = params[:ratings] ? Movie.where("rating IN (?)", @ratings_hash.keys) : Movie.all
+    @movies.order!(params[:sort_by]) if params[:sort_by]
     case params[:sort_by]
     when 'title'
       @title_header='hilite'
     when 'release_date'
       @release_header='hilite'
     end
+    @all_ratings=Movie.all_ratings
   end
 
   def new
