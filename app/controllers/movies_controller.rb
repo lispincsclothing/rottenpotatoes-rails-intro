@@ -32,11 +32,10 @@ class MoviesController < ApplicationController
     end
     @all_ratings=Movie.all_ratings
 
-
     session[:sort_by] = @sort_by
     session[:ratings] = @ratings_hash
 
-    @movies = params[:ratings] ? Movie.where("rating IN (?)", @ratings_hash.keys) : Movie.all
+    @movies = @ratings_hash ? Movie.where("rating IN (?)", @ratings_hash.keys) : Movie.all
     @movies.order!(@sort_by)
     case @sort_by
     when 'title'
