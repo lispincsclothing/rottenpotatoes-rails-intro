@@ -30,9 +30,8 @@ class MoviesController < ApplicationController
     else
       @ratings_hash = Hash[Movie.all_ratings.map {|v| [v,v]}]
     end
-
-    @ratings_hash = params[:ratings] ? params[:ratings] : Hash[Movie.all_ratings.map {|v| [v,v]}]
     @all_ratings=Movie.all_ratings
+
 
     session[:sort_by] = @sort_by
     session[:ratings] = @ratings_hash
